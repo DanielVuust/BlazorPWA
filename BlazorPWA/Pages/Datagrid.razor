@@ -1,0 +1,146 @@
+﻿@page "/datagrid";
+@using System.Security.Cryptography
+
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<h3>Datagrid</h3>
+
+<table>
+    <tr>
+        <th>@Name</th>
+        <th>Contact</th>
+        <th>Country</th>
+    </tr>
+    @foreach (var pic in @Pictures)
+    {
+        <tr>
+            <td>@pic.Name</td>
+        </tr>
+
+    }
+    @*<Virtualize Items="@Pictures" >
+        <em>@context</em>
+        <hr/>
+    </Virtualize>*@
+</table>
+
+<button @onclick="Clear">Clear LocalStorage</button>
+<button @onclick="SetName">SetName LocalStorage</button>
+<button @onclick="UploadFiles">UploadFile</button>
+<InputFile OnChange="@UploadFile" />
+@code {
+    public string Name;
+    public ObservableCollection<FileObservableData>? Pictures { get; set; } = new ObservableCollection<FileObservableData>();
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (!await localStorage.ContainKeyAsync("UploadedPictures"))
+                await localStorage.SetItemAsync("UploadedPictures", new ObservableCollection<FileObservableData>());
+            Pictures = await localStorage.GetItemAsync<ObservableCollection<FileObservableData>>("UploadedPictures");
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    public async void Clear()
+    {
+        try
+        {
+            await localStorage.ClearAsync();
+            //this.StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    
+    }
+    public async void SetName()
+    {
+        await localStorage.SetItemAsync("Name", "John Smith");
+    }
+
+    public async void UploadFiles()
+    {
+        try
+        {
+            ObservableCollection<FileObservableData> test2 = await localStorage.GetItemAsync<ObservableCollection<FileObservableData>>("UploadedPictures");
+            test2.Add(new FileObservableData("test", "22"));
+            Pictures = test2;
+            await localStorage.SetItemAsync<ObservableCollection<FileObservableData>>("UploadedPictures", test2);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    public async void UploadFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+
+            
+            Pictures.Add(new FileObservableData(e.File.Name, "22"));
+            await localStorage.SetItemAsync<ObservableCollection<FileObservableData>>("UploadedPictures", Pictures);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    public class FileObservableData : INotifyPropertyChanged
+    {
+        public FileObservableData(string name, string size)
+        {
+            this.Name = name;
+            this.Size = size;
+        }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                this.NotifyPropertyChanged("_name");
+            }
+        }
+        public string Size
+        {
+            get { return _size; }
+            set
+            {
+                _size = value;
+                this.NotifyPropertyChanged("_size");
+            }
+        }
+        public byte[] Bytes
+        {
+            get { return _bytes; }
+            set
+            {
+                _bytes = value;
+                this.NotifyPropertyChanged("_size");
+            }
+        }
+
+        private string _name;
+        private string _size;
+        private byte[] _bytes;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void NotifyPropertyChanged(String propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+}
