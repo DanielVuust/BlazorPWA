@@ -1,0 +1,67 @@
+﻿
+
+<div class="popupOverlay">
+    <div class="card h-100">
+        <div class="card-header">
+            Upload file
+        </div>
+        <div style="overflow:visible">
+
+                <img src="@File.GetImageUrlFromBytes()" 
+            width="@File.PreviewWidth" height="@File.PreviewHeight" style="object-fit:fill;"/>
+
+        </div>
+
+        <div class="card-body">
+
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <label for="fileName">Filename</label><br>
+                    <input @bind-value="@File.Name" @bind-value:event="oninput" id="fileName" class="w-100 m-2"/><br/>
+
+                    <label for="fileExtension">File extension</label>
+                    <input readonly @bind-value="@File.Extension" @bind-value:event="oninput" id="fileExtension" class="w-100 m-2 " /><br/>
+                </li>
+                <li class="list-group-item">
+                    <h4>Preview settings</h4>
+                    <label for="filePreviewHeight">File extension(px)</label>
+                    <input @bind-value="@File.PreviewHeight" @bind-value:event="oninput" class="w-100 m-2" id="filePreviewHeight"/><br/>
+
+                    <label for="filePreviewWidth">File extension(px)</label>
+                    <input @bind-value="@File.PreviewWidth" @bind-value:event="oninput" class="w-100 m-2" id="filePreviewWidth"/><br/>
+                </li>
+            </ul>
+
+
+            <div class="card-img-top">
+
+            </div>
+            <div class="d-flex flex-row-reverse align-items-end">
+                <button @onclick="SaveButtonClicked" class=" btn bg-success m-2">Ok</button>
+                <button @onclick="CancelByttonClicked" class=" btn bg-danger m-2">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    [Parameter]
+    public FileObservable File { get; set; }
+    //Because its the parent component that manges the storage of our files we need a way to tell it to save the new data.
+    [Parameter]
+    public EventCallback SaveFileInfo { get; set; }
+    //Because its the parent component that manages the visual state of the element we need to make a callback function to that parent element and tell it to close the card.
+    [Parameter]
+    public EventCallback ClosePictureCard { get; set; }
+
+    protected async Task SaveButtonClicked()
+    {
+        //Calls the callback SaveFileInfo function provided as a parameter
+        await SaveFileInfo.InvokeAsync();
+    }
+    protected async Task CancelByttonClicked()
+    {
+        //Calls the callback ClosePictureCard function provided as a parameter
+        await ClosePictureCard.InvokeAsync();
+    }
+}

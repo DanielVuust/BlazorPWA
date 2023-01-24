@@ -62,25 +62,10 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
-.popup {
-    /*width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);*/
-    /*transition: opacity 500ms;
-    opacity: 1;*/
-}
-.popup > div {
-    
-    
-}
+
 .popupOverlay {
-    width: 500px;
-    height: 500px;
+    /*width: 500px;*/
+    /*height: 500px;*/
     position: absolute;
     z-index: 100;
     box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
@@ -88,6 +73,7 @@ a, .btn-link {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    overflow: visible
 }
 .card {
     

@@ -1,11 +1,12 @@
 ﻿@page "/datagrid";
+@using BlazorPWADomain.Models;
 
 
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <h3>Datagrid</h3>
 
-<button @onclick="Clear">Clear local storage</button>
+<button @onclick="ClearLocalStorage">Clear local storage</button>
 <br/>
 <br/>
 <InputFile OnChange="@UploadFile" /> 
@@ -20,15 +21,14 @@
     </tr>
     
 
-    @foreach (var pic in @Pictures)
+    @foreach (var pic in Files)
     {
         <tr>
             <td>
-                <img src="@pic.ConvertToByte64()" style="height: 50px;"/>
-                @*<img src="data:image/gif;base64,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"/>*@
+                <img src="@pic.GetImageUrlFromBytes()" style="height: 50px;"/>
             </td>
             <th scope="row">
-                <a @onclick="@(() => ShowPictureCard(@pic.Id))">@pic.Name</a>
+                <a @onclick="@(() => ShowFileObservableCard(@pic.Id))">@pic.Name</a>
             </th>
             <td>@pic.Extension</td>
             <td>@pic.Bytes.Length</td>
@@ -36,161 +36,82 @@
     }
 </table>
 
-@if (IsVisible)
+@if (IsFileObservableCardVisible)
 {
-    <form method="post" class="popupOverlay">
-        <div class="card h-100">
-            <div class="card-header">
-                Upload file
-            </div>
-            <div class="card-body">
-                
-                <input @bind-value="@Pictures.First(x => x.Id == FileCardToShowId).Name" @bind-value:event="oninput" class="w-100 m-2"/><br/>
-                <input @bind-value="@Pictures.First(x => x.Id == FileCardToShowId).Extension" @bind-value:event="oninput" class="w-100 m-2"/><br/>
-                <input @bind-value="@Pictures.First(x => x.Id == FileCardToShowId).Name" @bind-value:event="oninput" class="w-100 m-2"/><br/>
-                <input @bind-value="@Pictures.First(x => x.Id == FileCardToShowId).Name" @bind-value:event="oninput" class="w-100 m-2"/><br/>
-                
-                <div class="d-flex flex-row-reverse align-items-end">
-                    <button @onclick="SaveFileInfo" class=" btn bg-success m-2">Ok</button>
-                    <button @onclick="CancelFileSave" class=" btn bg-danger m-2">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </form>
+    <FileObservableCard 
+        ClosePictureCard="CancelFileSave" SaveFileInfo="SaveFileInfo" 
+        File="@Files!.First(x => x.Id == FileCardToShowId)"></FileObservableCard>
 
 }
 
 @code {
     public Guid FileCardToShowId { get; set; }
-    public bool IsVisible = false;
-    public ObservableCollection<FileObservableData> Pictures { get; set; } = new ObservableCollection<FileObservableData>();
+    public bool IsFileObservableCardVisible = false;
+    public ObservableCollection<FileObservable> Files { get; set; } = new ObservableCollection<FileObservable>();
+
+    //When the page is first loaded we then sets our Files list to what is stored in our local storage.
     protected override async Task OnInitializedAsync()
     {
+        //If our local storage dosn't contain UploadedPictures then we set it to an empty ObservableCollection<FileObservableData>;
         if (!await localStorage.ContainKeyAsync("UploadedPictures"))
-            await localStorage.SetItemAsync("UploadedPictures", Pictures);
-        Pictures = await localStorage.GetItemAsync<ObservableCollection<FileObservableData>>("UploadedPictures");
-        
+            await localStorage.SetItemAsync("UploadedPictures", new ObservableCollection<FileObservable>());
+        Files = await localStorage.GetItemAsync<ObservableCollection<FileObservable>>("UploadedPictures");
     }
-    public async void Clear()
+
+    //Clears local storage
+    private async void ClearLocalStorage()
     {
-        Pictures = new ObservableCollection<FileObservableData>();
         await localStorage.ClearAsync();
-        //this.StateHasChanged();
-
+        await OnInitializedAsync();
     }
 
-    public void ShowPictureCard(Guid id)
+    //Shows the FileObservable card.
+    private void ShowFileObservableCard(Guid id)
     {
-        if (id == Guid.Empty || Pictures == null)
+        if (id == Guid.Empty || Files == null)
         {
             throw new NullReferenceException("Id not valid");
         }
-        FileCardToShowId = Pictures.FirstOrDefault(x => x.Id == id)!.Id;
-        IsVisible = true;
-        
+        FileCardToShowId = Files.First(x => x.Id == id).Id;
+        IsFileObservableCardVisible = true;
 
     }
-    public void ToggleDialogBox()
+
+    private void ToggleFileObservableCard()
     {
-        IsVisible = !IsVisible;
+        IsFileObservableCardVisible = !IsFileObservableCardVisible;
     }
 
-    public async void CancelFileSave()
+    private async void CancelFileSave()
     {
-        ToggleDialogBox();
-        Pictures = await localStorage.GetItemAsync<ObservableCollection<FileObservableData>>("UploadedPictures");
+        ToggleFileObservableCard();
+        //Resets our files collection to remove any changes med in the card.
+        Files = await localStorage.GetItemAsync<ObservableCollection<FileObservable>>("UploadedPictures");
         StateHasChanged();
     }
 
-    public async void UploadFile(InputFileChangeEventArgs e)
+    private async void UploadFile(InputFileChangeEventArgs e)
     {
+        //Converts the selected fil to byte[].
         MemoryStream ms = new MemoryStream();
         await e.File.OpenReadStream().CopyToAsync(ms);
         var bytes = ms.ToArray();
 
-        Pictures.Add(new FileObservableData(e.File.Name, e.File.Name.Split(".").Last(), bytes));
-        
-        
-        await localStorage.SetItemAsync<ObservableCollection<FileObservableData>>("UploadedPictures", Pictures);
+        //Creates a new FileObservable object.
+        Files.Add(new FileObservable(e.File.Name, e.File.Name.Split(".").Last(), bytes));
+
+        //Saves the changes to local storage.
+        await localStorage.SetItemAsync<ObservableCollection<FileObservable>>("UploadedPictures", Files);
+
+        //StateHasChanged is callede here because the list used dosn't update automaticly 
         StateHasChanged();
     }
-    
-    public async void SaveFileInfo()
+
+    private async void SaveFileInfo()
     {
-        IsVisible = !IsVisible;
-        await localStorage.SetItemAsync<ObservableCollection<FileObservableData>>("UploadedPictures", Pictures);
-            
+        //Closes the FileObservableCard.
+        IsFileObservableCardVisible = false;
+        //Saves the changes to local storage.
+        await localStorage.SetItemAsync<ObservableCollection<FileObservable>>("UploadedPictures", Files);
     }
-
-    public class FileObservableData : INotifyPropertyChanged
-    {
-        public FileObservableData(string name, string extension, byte[] bytes)
-        {
-            this.Name = name;
-            this.Extension = extension;
-            this.Bytes = bytes;
-            this.Id = Guid.NewGuid();
-        }
-        public Guid Id
-        {
-            get { return _id; }
-            set
-            {
-                _id = value;
-                this.NotifyPropertyChanged("_id");
-            }
-        }
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                this.NotifyPropertyChanged("_name");
-            }
-        }
-        public string Extension
-        {
-            get { return _extension; }
-            set
-            {
-                _extension = value;
-                this.NotifyPropertyChanged("_extension");
-            }
-        }
-        public byte[] Bytes
-        {
-            get { return _bytes; }
-            set
-            {
-                _bytes = value;
-                this.NotifyPropertyChanged("_bytes");
-            }
-        }
-
-        private Guid _id;
-        private string _name;
-        private string _extension;
-        private byte[] _bytes;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        private void NotifyPropertyChanged(String propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        public string ConvertToByte64()
-        {
-            if (Bytes == null)
-                return "";
-
-            var base64 = Convert.ToBase64String(this.Bytes);
-            return String.Format("data:image/gif;base64,{0}", base64);
-        }
-    }
-    
 }

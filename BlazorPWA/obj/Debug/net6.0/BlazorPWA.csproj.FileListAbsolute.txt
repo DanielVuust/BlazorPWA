@@ -1649,3 +1649,11 @@ C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\obj\Debug\net6.0\BlazorPWA
 C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\obj\Debug\net6.0\refint\BlazorPWA.dll
 C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\obj\Debug\net6.0\BlazorPWA.pdb
 C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\obj\Debug\net6.0\ref\BlazorPWA.dll
+C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\bin\Debug\net6.0\wwwroot\_framework\BlazorPWADomain.dll
+C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\bin\Debug\net6.0\wwwroot\_framework\BlazorPWADomain.pdb
+C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\bin\Debug\net6.0\wwwroot\_framework\BlazorPWADomain.pdb.gz
+C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\bin\Debug\net6.0\wwwroot\_framework\BlazorPWADomain.dll.gz
+C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\bin\Debug\net6.0\BlazorPWADomain.dll
+C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\bin\Debug\net6.0\BlazorPWADomain.pdb
+C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\obj\Debug\net6.0\build-gz\i57plqoR.gz
+C:\Users\danie\source\repos\C#\H3\BlazorPWA\BlazorPWA\obj\Debug\net6.0\build-gz\gcBlThf+.gz
